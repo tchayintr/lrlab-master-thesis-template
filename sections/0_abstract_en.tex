@@ -1,0 +1,13 @@
+Character-based word-segmentation models have been extensively applied to agglutinative languages, including Thai, due to their high performance. 
+%
+These models estimate word boundaries from a character sequence.
+%
+However, a Thai character unit in sequences has no essential meaning, compared with word, subword, and character cluster units that represent meaningful-linguistic knowledge.
+%
+We propose a Thai word-segmentation model that uses various types of information, including words, subwords, and character clusters, from a character sequence.
+%
+Our model applies multiple attentions to refine segmentation inferences by estimating the significant relationships among characters and various unit types.
+%
+We evaluate our model on three Thai datasets, and our experimental results show that our model outperforms other Thai word-segmentation models as well as showing the validity of using character-cluster over subword.
+%
+Furthermore, according to our analysis, particularly case study, our model can segment accurate results while compared models yield incorrect results that violate Thai writing system.

@@ -1,0 +1,183 @@
+\subsection{Datasets} 
+%
+We trained and evaluated several versions of our model on three datasets, BEST2010, TNHC,\footnote{\url{https://attapol.github.io/tlc}} and VISTEC.\footnote{\url{https://github.com/mrpeerat/OSKut/tree/main/VISTEC-TP-TH-2021}}
+%
+BEST2010 corpus consists of four different domains of textual document, including article, encyclopedia, news, and novel.
+%
+It has been used to mainly evaluate Thai word segmentation models.
+%
+TNHC and VISTEC are a collection of Thai classical literature and a social media dataset for Thai text processing, respectively.
+%
+The latter two datasets have been recently used for evaluating in domain-dependent word segmentation.
+%
+We randomly split the BEST2010 corpus into three sets:\footnote{\url{https://resources.aiat.or.th/thwcc-attn/datasets}} 80\% for a training, 10\% for a validation, and 10\% for a test.
+%
+For TNHC and VISTEC, we followed the same data splits as in previous work \cite{limkonchotiwat-etal-2020-domain,limkonchotiwat-etal-2021-handling}.
+%
+The data lengths for all datasets are listed in Table~\ref{tab:dataset}.
+%
+\begin{table}
+\centering
+\scalebox{1.0}{
+\begin{tabular}{llcccc}
+\hline
+\textbf{Dataset}          & \textbf{Set} & \textbf{$|$S$|$} & \textbf{$|$W$|$} & \textbf{$|$V$|$} & \textbf{$|$Ch$|$} \\ \hline
+\multirow{3}{*}{BEST2010} & Train        & 119K             & 4M               & 72.9K            & 16M               \\
+                          & Valid        & 14.9K            & 501.4K           & 23K              & 1.9M              \\
+                          & Test         & 14.9K            & 500.4K           & 23K              & 1.9M              \\ \hline
+\multirow{3}{*}{TNHC}     & Train        & 12.7K            & 0.3M             & 16.8K            & 1.3M              \\
+                          & Valid        & 1.4K             & 47.2K            & 5.3K             & 0.1M              \\
+                          & Test         & 4.4K             & 125K             & 9.2K             & 0.4M              \\ \hline
+\multirow{3}{*}{VISTEC}   & Train        & 36K              & 2.4M             & 98.5K            & 9.5M              \\
+                          & Valid        & 4K               & 270K             & 23.7K            & 1.1M              \\
+                          & Test         & 10K              & 677.4K           & 42.9K            & 2.6M              \\ \hline
+\end{tabular}}
+\caption{Data size, including the number of sentences (S), words (W), vocabulary (V), and characters (Ch).}
+\label{tab:dataset}
+\end{table}
+
+\subsection{Subword-unit Integration}
+Although subword units have been successfully applied to the word-segmentation task, they might generate noise that decreases segmentation performance when the word dictionary already exists.
+%
+Therefore, we conducted a comparison of using either subword units or CCs due to their similarity on the different versions of our proposed model. 
+%
+Let $V_{sw}$ be a subword vocabulary decomposed from the dataset.
+%
+We simply replace the CC vocabulary $V_{cc}$ with the decomposed subword vocabulary $V_{sw}$.
+%
+Thus, a candidate subwords list  $\mathcal{SW}_{x}$ can be acquired and used for the subword-attention integration by applying Equations \ref{eq:ccwcon-score} and \ref{eq:ccwcon}.
+
+\subsection{Integration Order of Word and CC Attention(s)}
+Considering the flexibility of attention integration, the integration order in our model can be switched.
+%
+For instance, our model executes CC-attention integration to estimate the relationship between characters and CCs before word-attention integration.
+%
+This might affect segmentation performance because each integration provides different knowledge.
+%
+Thus, we implemented a swapped version of our model (Swap) that switches the integration order for comparing the segmentation performance.
+
+\subsection{Pre-trained Model Integration}
+Fine-tuning a pre-trained model for word segmentation models has been been proved to be effective.
+%
+Thus, we conducted a character-based Thai word segmentation with pre-trained model, which is shown in Figure \ref{fig:bert-model}, by simply replacing the character BiLSTM layers in Figure \ref{fig:base-model} with BERT layers.
+%
+We chose Multilingual BERT\footnote{https://huggingface.co/bert-base-multilingual-cased} for our experiment due to its originality and accessibility. 
+%
+Furthermore, we also applied this approach to the baseline model and our proposed model, where word, CCs, or subword units are used, for model comparison.
+%
+
+In our experiment, concretely, each character $x_{i}$ is transformed into BERT-token id.
+%
+Thereafter, each token id is encoded with BERT encoder to obtain a character BERT-representation.
+%
+Candidate word $w_{j}$, and either candidate CC $cc_{p}$ or candidate subword unit $sw_{p}$ obtained from Section \ref{section:attn-integration} are transformed into BERT-token id.
+%
+Unlike the character BERT-representation, such candidate units are encoded into word-, CC-, subword-BERT-representation, from BERT-embedding layer directly.
+%
+The character BERT-representation along with corresponding word BERT-representation and either CC BERT-representation or subword BERT-representation are, used to estimate the importance scores $u$ and the attention weights $\alpha$ in Section \ref{section:attn-integration}.
+%
+Note that BERT tokenizer are not used to tokenize the sentence $s$ into subword units.
+%
+Thus, the candidate word, CC, and subword unit, can be unknown token (UNK), in other words, it depends on pre-trained model and is used as well as an approach to construct subword units in this experiment.
+%
+
+In addition, we included special tokens, including CLS and SEP tokens, in training-, validation-, and test-step, as the S (single-word) label of BIES tagging scheme.
+%
+However, these special tokens are not counted in testing step to avoid the overestimation.
+
+\subsection{Compared Models}
+%
+We evaluated the following models:
+
+\begin{itemize}
+    \setlength\itemsep{0.01em}
+    \item\textbf{Baseline}:
+        A character-based BiLSTM-CRF architecture as shown in Figure~\ref{fig:base-model}.
+    \item\textbf{Baseline w/ Word}:
+        An extension of Baseline that integrates word attention (BiLSTM-CRF with word attention) \cite{higashiyama-etal-2019-incorporating}.
+    \item\textbf{Baseline w/o BiLSTM w/ BERT}:
+        A character-based BERT-CRF architecture that replaces BiLSTM layers for character representation with BERT layers, as shown in \ref{fig:bert-model}.
+    \item\textbf{Baseline w/ BERT w/ Word}:
+        The Baseline w/ Word that replaces BiLSTM layers for character representation with BERT (BERT-BiLSTM-CRF with word attention).
+    \item\textbf{OURS}:
+        Our proposed model that integrates word and CC attentions (BiLSTM-CRF with word and CC attentions), as shown in Figure~\ref{fig:main-model}.
+    \item\textbf{OURS w/o CC w/ Sub}:
+        Our proposed model that replaces the CC with various sizes of subword units (800-12,800) (BiLSTM-CRF with word and subword attentions).
+    \item\textbf{OURS w/o Word}:
+        Our proposed model that removes word attention (BiLSTM-CRF with CC attention).
+    \item\textbf{OURS Swap}:
+        Our proposed model that swaps the order of word and CC attentions.
+    \item\textbf{OURS w/o CC w/ Sub Swap}: 
+        OURS w/o CC w/ Sub model that swaps the order of word and subword unit attentions.
+    \item\textbf{OURS w/ BERT}:
+        Our proposed model that integrates word and CC attentions, and replaces BiLSTM layers for character representation with BERT (BERT-BiLSTM-CRF with word and CC attentions).
+    \item\textbf{OURS w/ BERT w/o CC w/ Sub}:
+        Our proposed model that integrates word and subword unit attentions, and replaces BiLSTM layers for character representation with BERT (BERT-BiLSTM-CRF with word and subword attentions).
+    \item\textbf{Others}: Reproduced Thai non-neural/neural word-segmentation models, including well-known models, the state-of-the-art Thai word-segmentation model \cite{seeha-etal-2020-thailmcut}, and recent domain-adaptation models \cite{limkonchotiwat-etal-2020-domain,limkonchotiwat-etal-2021-handling}.
+\end{itemize}
+
+We used CCs with publicly available libraries, including \citeA{pythainlp} and TCCSEG,\footnote{\url{https://github.com/tchayintr/tccseg}} to build the CC vocabulary $V_{cc}$.
+%
+To generate the subword vocabulary $V_{sw}$ for each dataset, we decomposed raw sentences from train set  into various sizes of subword units using byte-pair encoding \cite{sennrich-etal-2016-neural} implemented by SentencePiece \cite{kudo-richardson-2018-sentencepiece}. Note that the generated subword vocabulary for each dataset is not shared among the experimental datasets.
+
+%
+% We utilized the common hyperparameters for training our proposed modeals, as in Appendix. 
+We used the common hyperparameters for training the different versions of our proposed model (hereafter, our models), as shown in Table~\ref{tab:hyp}.
+% We utilized the common hyperparameters for training our proposed models, as in Appendix~\ref{appx:hyp}. 
+%
+Dropout \cite{Srivastava2014} was applied to the BiLSTM layers to avoid overfitting as well as non-recurrent layers \cite{Zaremba2015}.
+%
+We also optimized the model parameters using the Adam optimizer \cite{Kingma2015}.
+%
+We trained our models up to 20 epochs and chose the best one on the basis of the validation process involving word-level evaluation (CoNLL\footnote{\url{https://github.com/spyysalo/conlleval.py}}).
+%
+
+We evaluated our models on the test data by using three evaluation metrics, i.e., word-level evaluation (CoNLL-format), BIES tagging scheme (character-level evaluation), and Bound (boundary-level evaluation) \cite{seeha-etal-2020-thailmcut}.
+%
+% We used word-level, BIES tagging schemes, and the boundary-level evaluation to evaluate the segmentation performance in our experiments.
+% %
+Moreover, we additionally used binary-character-level evaluation similar to \citeA{limkonchotiwat-etal-2020-domain,limkonchotiwat-etal-2021-handling} for comparing our model with the recent Thai domain-adaptation word segmentation works.
+%
+% The boundary-level evaluations are defined as
+% \begin{gather*}
+%     \text{P} = \frac{\text{\# correct predicted word boundaries}}{\text{\# predicted characters as word boundaries}} \\
+%     \text{R} = \frac{\text{\# correct predicted word boundaries}}{\text{\# hypothesis word boundaries}} \\
+%     \text{F$_{1}$} = \text{2} \times \frac{\text{P} \times \text{R}}{\text{P} + \text{R}},
+% \end{gather*}
+% %
+% where P, R, and F$_{1}$ denote the precision, recall, and F$_{1}$ score, respectively.
+%
+Note that our F$_{1}$ scores are based on the micro-averaged F$_{1}$ score for all evaluation matrices.
+% We evaluated our models based on the test data by three evaluation metrics (Appendix~\ref{appx:eval-metrics}), including CoNLL\footnote{\url{https://github.com/spyysalo/conlleval.py}}, Boundary-level \cite{seeha-etal-2020-thailmcut}, and BIES tagging schemes that averages micro-averaged F$_{1}$ scores for each label.
+%
+We conducted statistical significance tests using paired bootstrap resampling \cite{Koehn2004} on our results, particularly OURS with the Thai state-of-the-art word segmentation \cite{seeha-etal-2020-thailmcut}, OURS with Baseline w/ Word \cite{higashinaka-etal-2021-integrated}, and OURS w/o CC w/ Sub.
+%  
+We set the resampling size to 100,000 iterations and sample size for each resampling to 10\% of the test data.
+
+\begin{table}
+\centering
+\scalebox{1.0}{
+\begin{tabular}{lr}
+\hline
+\textbf{Parameter}             & \textbf{Value} \\ \hline
+Character-embedding size       & 128            \\
+BiLSTM layers                  & 2              \\
+BiLSTM hidden size             & 600            \\
+Mini-batch size                & 128            \\
+BiLSTM Initial learning rate   & 0.001          \\
+Learning rate decay            & 0.99           \\
+Recurrent layer dropout rate   & 0.4            \\ \hline
+Word-embedding size            & 300            \\
+Word-vector dropout rate       & 0.4            \\
+Maximum word (chunk) length    & 4              \\ 
+BERT hidden size               & 768            \\
+BERT initial learning rate     & 0.00002        \\
+Maximum sequence length        & 512            \\ \hline
+CC/subword-embedding size      & 300            \\
+CC/subword-vector dropout rate & 0.4            \\
+Maximum CC/subword length      & 0.4            \\ \hline
+\end{tabular}}
+\caption{Common hyperparameters for Baselines and our models (top/middle) with exclusive values for our models (bottom). CC hyperparameters can be applied to subword integration.}
+\label{tab:hyp}
+\end{table}
+

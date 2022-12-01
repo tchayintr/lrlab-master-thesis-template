@@ -1,0 +1,130 @@
+% Sample file for JNLP (Journal of Natural Language Processing)
+% English Paper.
+% For ASCII pLaTeX2e
+% This file requires
+%	jnlp_3.3.cls
+% For e_yourrefs.bib, jbibtex requires
+%	jnlpbbl_2.1.bst
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Please do not appoint other files.                              %%%%
+%%%% But I do not mind when I had you dispatch it with an article.   %%%%
+%%%% In this case a thing working in ASCII pLaTeX is best.           %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% 16-Nov-20 by Nakanishi Printing Co., Ltd
+% 13-Apr-20 by masayu-a@ninjal.ac.jp (for jother.tex, eother.tex)
+% 27-Dec-17 by Nakanishi Printing Co., Ltd
+% 07-Sep-06 by Nakanishi Printing Co., Ltd (for Platex2e)
+% 13-Jan-95 by m_yama@pluto.ai.kyutech.ac.jp (renamed from theapa to nlpbbl)
+% 30-Nov-94 by nakamura@ai.kyutech.ac.jp, acknowledgment example
+% 08-Nov-94 by nakamura@ai.kyutech.ac.jp, copyright
+% 06-Nov-94 by nakamura@ai.kyutech.ac.jp
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[english,tombow]{jnlp_3.3}
+\usepackage{jnlpbbl_2.1}
+%%%% Citation Format
+%% \cite{Article_01} -> "(LastName 2006)"
+%% \citeA{Article_01} -> "LastName (2006)" 
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath}
+\usepackage{url}
+\renewcommand\UrlFont{\rmfamily}
+
+
+%%%% Following settings will be edited by editors.
+\Volume{28}
+\Number{1}
+\Month{February}
+\Year{2021}
+\Issuetitle{Special Issue: XXXXXXXX}
+
+\received{2005}{1}{2}
+\revised{2006}{3}{4}
+\rerevised{2006}{5}{6}
+\accepted{2006}{7}{8}
+
+\setcounter{page}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%   Title, Author, etc.            %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\esubject{Subject (English)}
+\etitle{Title (English)}
+\eauthor{Name1\affiref{Author_1} \and Name2\affiref{Author_2}} 
+\eabstract{%
+	Abstract (English)
+}
+\ekeywords{Key Word (English)}
+
+\headauthor{Header: author}
+\headtitle{Header: title}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%     Affiliation     %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\affilabel{Author_1}{}{Affiliation-1 (English)}
+\affilabel{Author_2}{}{Affiliation-2 (English)}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Start your paper!
+\section{Introduction}
+
+In late years importance of a study of a theory/algorithm system 
+about language processing rises\cite{Article_01}. 
+A study of this field of our country has already had the history 
+more than 30 years, 
+and presentation of the results of the study increases rapidly. 
+Importance of individual sex and a language processing study from a situation 
+in consideration of universality to have of a language increases, 
+and linguistics, a researcher of comp-sci are common, 
+and an arguing place is demanded\cite{Book_02}. 
+Similar situation has it in U.S.A., Europe, Asian countries. 
+There is The Association for Computational Linguistics (ACL) led by U.S.A., 
+and European Chapter of ACL is prepared into Europe and works on I am active each. 
+In view of such situation\cite{Inproc_03}, 
+we established `The Association for Natural Language Processing (NLP)' 
+again as a place of international study interchange as 
+a place of results of research announcement of language disposal of 
+our country on April 1, 1994\cite{Masters_04,Techrep_05}. 
+And I did the activity object range with making fate, 
+an aim clear as follows to form a society as the place 
+where a high argument was possible of density\nocite{Web_06}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Start Acknowledgment
+\acknowledgment
+
+The authors would like to acknowledge the large contributions of our
+students to prepare examples, and to thank John Smith for reading the
+paper critically and giving constructive suggestions.
+
+% Start bibliography
+\bibliographystyle{jnlpbbl_1.5}
+\bibliography{e_yourrefs}
+
+% Start biography
+\begin{biography}
+
+\bioauthor{Author1}{%
+Biography of Author1
+}
+
+\bioauthor{Author2}{%
+Biography of Author1
+}
+\end{biography}
+
+%%%% \biodate   %%%% Following settings will be edited by editors.
+
+
+\end{document}
+

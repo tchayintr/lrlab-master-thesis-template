@@ -1,0 +1,163 @@
+% Sample file for JNLP (Journal of Natural Language Processing)
+% English Paper.
+% For ASCII pLaTeX2e
+% This file requires
+%	jnlp_3.3.cls
+% For e_yourrefs.bib, jbibtex requires
+%	jnlpbbl_2.1.bst
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Please do not appoint other files.                              %%%%
+%%%% But I do not mind when I had you dispatch it with an article.   %%%%
+%%%% In this case a thing working in ASCII pLaTeX is best.           %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% 16-Nov-20 by Nakanishi Printing Co., Ltd
+% 13-Apr-20 by masayu-a@ninjal.ac.jp (for jother.tex, eother.tex)
+% 27-Dec-17 by Nakanishi Printing Co., Ltd
+% 07-Sep-06 by Nakanishi Printing Co., Ltd (for Platex2e)
+% 13-Jan-95 by m_yama@pluto.ai.kyutech.ac.jp (renamed from theapa to nlpbbl)
+% 30-Nov-94 by nakamura@ai.kyutech.ac.jp, acknowledgment example
+% 08-Nov-94 by nakamura@ai.kyutech.ac.jp, copyright
+% 06-Nov-94 by nakamura@ai.kyutech.ac.jp
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[english,tombow]{jnlp_3.3}
+\usepackage{jnlpbbl_2.1}
+%%%% Citation Format
+%% \cite{Article_01} -> "(LastName 2006)"
+%% \citeA{Article_01} -> "LastName (2006)" 
+
+% \usepackage[thai,english,main=japanese]{babel}
+% \usepackage[utf8x]{inputenc}
+% \newcommand\thai[1]{{\begin{otherlanguage}{english}#1\end{otherlanguage}}}
+
+\usepackage[dvipdfmx, nosetpagesize]{graphicx}
+\usepackage[dvipdfmx]{xcolor}
+% \usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath,amsfonts}
+\usepackage{url}
+\renewcommand\UrlFont{\rmfamily}
+
+% my packages
+%% for Thai text
+% \usepackage[thai,english,main=japanese]{babel}
+% \usepackage[utf8x]{inputenc}
+% \newcommand\thaitext[1]{{\begin{otherlanguage}{english}#1\end{otherlanguage}}}
+
+%% normal packages
+\usepackage{nccmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{subfiles}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{arydshln}  % dashed line
+
+% my commands
+\newcommand{\draft}[1]{\textcolor{gray}{#1}}
+\newcommand{\verify}[1]{\textcolor{red}{#1}}
+\makeatletter
+\def\blfootnote{\xdef\@thefnmark{}\@footnotetext}
+\makeatother
+
+%%%% Following settings will be edited by editors.
+\Volume{}
+\Number{}
+\Month{}
+\Year{2022}
+\Issuetitle{Special Issue: XXXXXXXX}
+
+\received{2005}{1}{2}
+\revised{2006}{3}{4}
+\rerevised{2006}{5}{6}
+\accepted{2006}{7}{8}
+
+\setcounter{page}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%   Title, Author, etc.            %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\esubject{General Paper}
+\etitle{Character-based Thai Word Segmentation with Multiple Attentions}
+\eauthor{Thodsaporn Chay-intr\affiref{lrlab} \and Hidetaka Kamigaito\affiref{naist} \and Manabu Okumura\affiref{lrlab-fac}} 
+% \eabstract{
+% 	\input{sections/1_introduction}
+% }
+% \ekeywords{Thai word segmentation, representation learning}
+\eabstract{%
+	\input{sections/0_abstract_en}
+}
+\ekeywords{Thai word segmentation, representation learning}
+
+\headauthor{Chay-intr et al.}
+\headtitle{Character-based Thai Word Segmentation with Multiple Attentions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%     Affiliation     %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\affilabel{lrlab}{}{%Department of Information and Communications Engineering, 
+School of Engineering, Tokyo Institute of Technology}
+\affilabel{naist}{}{Division of Information Science, Nara Institute of Science and Technology}
+\affilabel{lrlab-fac}{}{Institute of Innovative Research, Tokyo Institute of Technology}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Start your paper!
+\section{Introduction}
+\blfootnote{Part of this work was presented at The $\text{13}^{\text{th}}$ Recent Advances in Natural Language Processing (RANLP 2021) \cite{chay-intr-etal-2021-character}.}
+\input{sections/1_introduction}
+
+\section{Related Work}
+\input{sections/2_related}
+
+\section{Approach}
+\input{sections/3_approach}
+
+\section{Experiment}
+\input{sections/4_experiment}
+
+\section{Results and Discussion}
+\input{sections/5_results}
+
+\section{Conclusion and Future Work}
+\input{sections/6_conclusion}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Start Acknowledgment
+\acknowledgment
+This paper is an extended version of our preliminary paper \cite{chay-intr-etal-2021-character} presented in The $\text{13}^{\text{th}}$ Recent Advances in Natural Language Processing (RANLP 2021). 
+%
+In this paper, we add detailed explanations and the following new information to the original one: BERT and recent domain-dependent Thai word segmentation in introduction; pre-trained model in Thai word segmentation in related work; explanation of BERT layers in approach; four non-neural models for comparison; two new domain-dependent datasets with their statistics for comparing our model with recent domain-dependent models; hyperparameters for pre-trained model integration; experimental results for pre-trained model integration, comparison of our model and recent Thai domain-dependency works on two domain-dependent datasets; analysis for pre-trained model integration results and domain-dependent comparison; population standard deviation in neural models; statistical significance tests for the strong baseline models on main results and analysis. 
+%
+
+% Start bibliography
+\bibliographystyle{jnlpbbl_1.5}
+\bibliography{anthology,e_yourrefs}
+
+% % Start biography
+% \begin{biography}
+
+% \bioauthor{Thodsaporn Chay-intr}{%
+% He received his M.Eng. from Sirindhorn Institute of Technology, and is currently a doctoral student at Tokyo Institute of Technology. His current research interests are in Natural Language Processing, particularly text classification, computer linguistic, and text mining.
+% }
+
+% \bioauthor{Hidetaka Kamigaito}{%
+% He received his Ph.D. from Tokyo Institute of Technology, and is currently an associate professor at Nara Institute of science and Technology. His current research interests are in Natural Language Processing with a specific focus on document-level text processing.
+    % kamigaito.h@is.naist.jp
+% }
+
+% \bioauthor{Manabu Okumura}{%
+% He received his Dr. Eng. from Tokyo Institute of Technology, and is currently a professor at Institute of Innovative Research. His current research interests include Natural Language Processing, especially text summarizing, computer assisted language learning, sentiment analysis, and text mining.
+% }
+% \end{biography}
+
+%%%% \biodate   %%%% Following settings will be edited by editors.
+\end{document}

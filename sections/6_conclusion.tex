@@ -1,0 +1,13 @@
+We proposed a character-based Thai word-segmentation model that uses multiple attentions on various types of linguistic knowledge, i.e., words, subwords, and CCs.
+%
+The best version of our model outperformed Thai state-of-the-art performance by using the word attention along with CC attention in the BiLSTM-CRF architecture.
+%
+The comparison between BiLSTM-based models with BERT-based models mostly showed that BiLSTM-based models surpassed BERT-based models, particularly by using our method.
+%
+However, our approach yet showed the improvement over the baseline model after integrating a pretrained BERT model into our proposed model.
+%
+Our further analysis also indicates that using CC can be more beneficial than using subword units in word-segmentation tasks.
+%
+As for future work, the multiple attentions can be merged into a single attention to reduce the model size as well as time complexity.
+%
+Furthermore, instead of using existing pre-trained models, building our own pre-trained models for fine-tuning the proposed model can also be considered.
