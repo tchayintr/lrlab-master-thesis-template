@@ -9,6 +9,7 @@ __pycache__/
 # OS generated files 
 ######################
 _Store
+.DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
